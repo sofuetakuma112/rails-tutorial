@@ -1,0 +1,10 @@
+Metrics/AbcSize:
+  # The ABC size is a calculated magnitude, so this number can be a Fixnum or
+  # a Float.
+  Max: 25
+
+Metrics/MethodLength:
+  Max: 1000
+
+Metrics/AbcSize(RuboCop):
+  Max: 1000

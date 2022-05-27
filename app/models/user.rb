@@ -1,5 +1,10 @@
 class User < ApplicationRecord
-  attr_accessor :remember_token, :activation_token
+  # dependent: :destroyというオプションを使うと、
+  # ユーザーが削除されたときに、
+  # そのユーザーに紐付いた（そのユーザーが投稿した）マイクロポストも
+  # 一緒に削除されるようになります。
+  has_many :microposts, dependent: :destroy
+  attr_accessor :remember_token, :activation_token, :reset_token
 
   before_save   :downcase_email
   before_create :create_activation_digest
@@ -65,6 +70,29 @@ class User < ApplicationRecord
   # 有効化用のメールを送信する
   def send_activation_email
     UserMailer.account_activation(self).deliver_now
+  end
+
+  # パスワード再設定の属性を設定する
+  def create_reset_digest
+    self.reset_token = User.new_token
+    update_attribute(:reset_digest,  User.digest(reset_token))
+    update_attribute(:reset_sent_at, Time.zone.now)
+  end
+
+  # パスワード再設定のメールを送信する
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
+  end
+
+  # パスワード再設定の期限が切れている場合はtrueを返す
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
+  end
+
+  # 試作feedの定義
+  # 完全な実装は次章の「ユーザーをフォローする」を参照
+  def feed
+    Micropost.where('user_id = ?', id)
   end
 
   private

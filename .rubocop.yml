@@ -6,5 +6,8 @@ Metrics/AbcSize:
 Metrics/MethodLength:
   Max: 1000
 
-Metrics/AbcSize(RuboCop):
+Metrics/AbcSize:
+  Max: 1000
+
+Metrics/BlockLength:
   Max: 1000

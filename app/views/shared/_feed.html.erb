@@ -1,0 +1,9 @@
+<% if @feed_items.any? %>
+<ol class="microposts">
+  <%= render @feed_items %>
+</ol>
+<%# params: { controller: :static_pages, action: :home }を明示的に渡すことで
+ページネーションのURLを推定させずに正しく設定する %>
+<%= will_paginate @feed_items,
+                    params: { controller: :static_pages, action: :home } %>
+<% end %>

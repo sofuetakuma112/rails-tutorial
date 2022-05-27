@@ -7,7 +7,7 @@
     ここではエラーメッセージをほぼ確実に表示するために
     通常の“local”フォームリクエストを送信したい %>
     <%= form_with(model: @user, local: true) do |f| %>
-    <%= render 'shared/error_messages' %>
+    <%= render 'shared/error_messages', object: f.object %>
 
     <%# 以下2行は、
       Userモデルのname属性を設定する、

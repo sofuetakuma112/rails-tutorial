@@ -9,4 +9,19 @@
       </h1>
     </section>
   </aside>
+  <div class="col-md-8">
+    <% if @user.microposts.any? %>
+    <h3>Microposts (<%= @user.microposts.count %>)</h3>
+    <ol class="microposts">
+      <%= render @microposts %>
+    </ol>
+    <%# Usersコントローラのコンテキストにおいて、
+    @usersインスタンス変数が存在していることを前提としている場合は、
+    will_paginateメソッドに引数は不要だが、
+    今回の場合はUsersコントローラのコンテキストから
+    マイクロポストをページネーションしたいため（つまりコンテキストが異なるため）
+    明示的に@microposts変数をwill_paginateに渡す必要があります。 %>
+    <%= will_paginate @microposts %>
+    <% end %>
+  </div>
 </div>
